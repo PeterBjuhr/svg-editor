@@ -1,15 +1,18 @@
-	var cord, last_m, drag = null;
+	var cord={}, last_m, drag = null;
 	var svg = document.getElementById("svg");
 	var maxX = svg.offsetWidth-1;
 	var maxY = svg.offsetHeight-1;
-	var c = document.getElementById("c");
+	var c1 = document.getElementById("c1");
+	var c2 = document.getElementById("c2");
 	Init();
 	
-	//initial points
+	//initial cordinate
 	function Init(){
 				
-		cord = {x: parseInt(c.getAttribute("cx"),10),
-				y: parseInt(c.getAttribute("cy"),10)};
+		cord['c1'] = {x: parseInt(c1.getAttribute("cx"),10),
+					y: parseInt(c1.getAttribute("cy"),10)};
+		cord['c2'] = {x: parseInt(c2.getAttribute("cx"),10),
+					y: parseInt(c2.getAttribute("cy"),10)};
 			
 		// event handlers
 		svg.onmousedown = svg.onmousemove = svg.onmouseup = Drag;
@@ -25,25 +28,25 @@
 		
 		
 		e.stopPropagation();
-		var et = e.type, m = mousePos(e);
+		var ct = e.target, id = ct.id, et = e.type, m = mousePos(e);
 	
 		// start drag
 		if (!drag && (et == "mousedown" || et == "touchstart")) {
-			drag = c;
+			drag = ct;
 			last_m = m;		
 		}
 		
 		// drag
 		if (drag && (et == "mousemove" || et == "touchmove")) {
 			id = drag.id;
-			cord.x += m.x - last_m.x;
-			cord.y += m.y - last_m.y;
+			cord[id].x += m.x - last_m.x;
+			cord[id].y += m.y - last_m.y;
 			last_m = m;
-			drag.setAttribute("cx", cord.x);
-			drag.setAttribute("cy", cord.y);
+			drag.setAttribute("cx", cord[id].x);
+			drag.setAttribute("cy", cord[id].y);
 			
 			//activate dragging
-			c.setAttribute("fill", "orange");
+			ct.setAttribute("fill", "orange");
 			
 			//reDrawSVG();
 		}
@@ -52,7 +55,7 @@
 		if (drag && (et == "mouseup" || et == "touchend")) {
 			drag = null;
 			//activate
-			c.setAttribute("fill", "blue");
+			ct.setAttribute("fill", "blue");
 		}
 	
 	}
