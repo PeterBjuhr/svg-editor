@@ -46,7 +46,7 @@
 			drag.setAttribute("cy", cord[id].y);
 			
 			//activate dragging
-			ct.setAttribute("fill", "orange");
+			drag.setAttribute("fill", "orange");
 			
 			//reDrawSVG();
 		}
